@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M/J Visual Art 2 &mdash; Lesson 2.02</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS - see references/widgets.md (keep byte-consistent) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+
+    /* ===== ACTIVITY ACCENT: coral (make/studio) ===== */
+    .act-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .act-badge { min-width: 34px; height: 34px; border-radius: 50%; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .badge-coral { background: #E4572E; }
+    .badge-navy { background: #0E1C42; }
+    .badge-gold { background: #C7922C; }
+
+    /* ===== FOREGROUND / MIDDLE GROUND / BACKGROUND ATMOSPHERIC DIAGRAM ===== */
+    .ldd-frame { position: relative; width: 100%; height: 260px; border-radius: 10px; overflow: hidden; margin: 4px 0 14px 0; box-shadow: inset 0 0 0 1px #D0D9E8; background: linear-gradient(to bottom, #F4F9FC 0%, #EEF1F8 30%, #BFE0EE 62%, #7FC2DE 100%); }
+    .ldd-bg-hill { position: absolute; border-radius: 50% 50% 0 0; background: #D0D9E8; opacity: 0.85; filter: blur(1.5px); }
+    .ldd-bg-hill.h1 { left: -8%; bottom: 34%; width: 60%; height: 68px; }
+    .ldd-bg-hill.h2 { left: 30%; bottom: 34%; width: 70%; height: 92px; background: #C3D0E3; }
+    .ldd-bg-hill.h3 { left: 68%; bottom: 34%; width: 48%; height: 58px; }
+    .ldd-mid-hill { position: absolute; left: -6%; bottom: 16%; width: 112%; height: 92px; border-radius: 50% 50% 0 0; background: #3E9FA8; }
+    .ldd-mid-tree { position: absolute; bottom: 24%; }
+    .ldd-mid-tree .ldd-foliage { width: 30px; height: 34px; border-radius: 50% 50% 45% 45%; background: #157C86; margin: 0 auto; }
+    .ldd-mid-tree .ldd-trunk { width: 5px; height: 12px; background: #0F5A61; margin: -3px auto 0; }
+    .ldd-fg-ground { position: absolute; left: 0; bottom: 0; width: 100%; height: 20%; background: linear-gradient(to bottom, #16274F 0%, #0E1C42 100%); }
+    .ldd-fg-tree { position: absolute; bottom: 17%; left: 5%; }
+    .ldd-fg-tree .ldd-fg-trunk { width: 11px; height: 50px; background: #0E1C42; margin: 0 auto; border-radius: 2px; }
+    .ldd-fg-tree .ldd-fg-foliage-back { width: 78px; height: 78px; border-radius: 50%; background: #132A56; margin: 0 0 -46px -6px; }
+    .ldd-fg-tree .ldd-fg-foliage-front { width: 62px; height: 62px; border-radius: 50%; background: #0E1C42; margin: 0 0 0 26px; }
+    .ldd-fg-rock { position: absolute; bottom: 17%; right: 9%; width: 96px; height: 50px; background: #0E1C42; clip-path: polygon(8% 100%, 0% 55%, 22% 18%, 46% 0%, 72% 12%, 100% 48%, 92% 100%); }
+    .ldd-fg-rock::after { content: ""; position: absolute; top: 8px; left: 18px; width: 22px; height: 10px; background: #1a2340; border-radius: 50%; opacity: 0.8; }
+    .ldd-label { position: absolute; font-size: 12px; color: #0e1c42; background: rgba(255,255,255,0.88); padding: 3px 11px; border-radius: 10px; letter-spacing: 0.3px; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+    .ldd-label.bg { top: 12px; right: 14px; color: #55697f; }
+    .ldd-label.mid { bottom: 38%; left: 14px; color: #0f5a61; }
+    .ldd-label.fg { bottom: 6%; right: 14px; color: #ffffff; background: rgba(14,28,66,0.6); box-shadow: none; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">M/J VISUAL ART 2</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 6</div>
+        <div style="font-size: 12px; color: #666;">Landscape</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.02</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Hundertwasser-Inspired Landscapes</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Module Theme</div>
+        <div style="font-size: 16px; color: #0e1c42;">Depth and Movement</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.02</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Landscape: Hundertwasser-Inspired Landscapes</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How do artists make a flat page feel like it goes back for miles?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">A landscape is a picture of an outdoor scene: hills, sky, water, buildings, or trees. The trick that makes a landscape feel deep is the way an artist stacks it in layers from front to back. Today you will learn those three layers, review how <strong>line</strong>, <strong>shape</strong>, and <strong>balance</strong> hold a scene together, and look at how one artist broke every rule about straight lines and dull colors.</div>
+    </div>
+
+    <!-- ===== OBJECTIVES ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#127919; I WILL BE ABLE TO</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0; line-height: 1.4;">&#9654;</span><div style="font-size: 17px; color: #1a2340; line-height: 1.55;">Use foreground, middle ground, and background to make a flat picture feel deep.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0; line-height: 1.4;">&#9654;</span><div style="font-size: 17px; color: #1a2340; line-height: 1.55;">Use wavy lines, patterned shapes, and unexpected color choices the way Hundertwasser did to build a landscape full of personality.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0; line-height: 1.4;">&#9654;</span><div style="font-size: 17px; color: #1a2340; line-height: 1.55;">Explain how the HundertwasserHaus reflects the place and time it was built, Vienna, Austria, in the 1980s.</div></div>
+    </div>
+
+    <!-- ===== DEPTH: three layers ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 6px;">&#127956; THREE LAYERS OF DEPTH</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 0 0 14px 0;">Every landscape that feels deep is built in three layers. Near things look big, low on the page, sharp, and richly colored. Far things look small, high on the page, hazy, and washed out. Look at how each layer below gets lighter and softer the farther back it sits, and darker and sharper the closer it comes.</p>
+
+        <div class="ldd-frame">
+            <div class="ldd-bg-hill h1"></div>
+            <div class="ldd-bg-hill h2"></div>
+            <div class="ldd-bg-hill h3"></div>
+            <div class="ldd-label bg">Background</div>
+
+            <div class="ldd-mid-hill"></div>
+            <div class="ldd-mid-tree" style="left: 8%;"><div class="ldd-foliage"></div><div class="ldd-trunk"></div></div>
+            <div class="ldd-mid-tree" style="left: 22%;"><div class="ldd-foliage" style="width:24px;height:28px;"></div><div class="ldd-trunk"></div></div>
+            <div class="ldd-mid-tree" style="left: 38%;"><div class="ldd-foliage" style="width:34px;height:38px;"></div><div class="ldd-trunk"></div></div>
+            <div class="ldd-mid-tree" style="left: 55%;"><div class="ldd-foliage" style="width:26px;height:30px;"></div><div class="ldd-trunk"></div></div>
+            <div class="ldd-mid-tree" style="left: 70%;"><div class="ldd-foliage" style="width:32px;height:36px;"></div><div class="ldd-trunk"></div></div>
+            <div class="ldd-mid-tree" style="left: 85%;"><div class="ldd-foliage" style="width:24px;height:28px;"></div><div class="ldd-trunk"></div></div>
+            <div class="ldd-label mid">Middle ground</div>
+
+            <div class="ldd-fg-ground"></div>
+            <div class="ldd-fg-tree"><div class="ldd-fg-foliage-back"></div><div class="ldd-fg-foliage-front"></div><div class="ldd-fg-trunk"></div></div>
+            <div class="ldd-fg-rock"></div>
+            <div class="ldd-label fg">Foreground</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+            <div style="background:#EEF1F8;border-radius:6px;padding:12px 14px;"><strong style="color:#0e1c42;font-size:15px;">Foreground</strong><div style="font-size:13px;color:#555;">The front. Lowest on the page, largest, darkest, and most detailed. The part closest to you.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:12px 14px;"><strong style="color:#0e1c42;font-size:15px;">Middle ground</strong><div style="font-size:13px;color:#555;">The center. Medium size and medium tone, sitting between near and far. Often where the main action is.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:12px 14px;"><strong style="color:#0e1c42;font-size:15px;">Background</strong><div style="font-size:13px;color:#555;">The far distance. Highest on the page, smallest, palest, and hazy. Hills, sky, or faraway shapes.</div></div>
+        </div>
+    </div>
+
+    <!-- ===== Three tools at work ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127912; YOUR THREE TOOLS THIS WEEK</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+            <div style="background:#EEF1F8;border-radius:6px;padding:12px 14px;"><strong style="color:#0e1c42;font-size:15px;">Line</strong><div style="font-size:13px;color:#555;">A moving path. Wavy, curved lines feel alive and playful. Straight lines feel still and stiff.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:12px 14px;"><strong style="color:#0e1c42;font-size:15px;">Shape</strong><div style="font-size:13px;color:#555;">A flat 2D area. Overlapping shapes, with the front one covering part of the back one, instantly creates depth.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:12px 14px;"><strong style="color:#0e1c42;font-size:15px;">Balance</strong><div style="font-size:13px;color:#555;">Arranging the parts so the scene feels steady, not crowded on one side and empty on the other.</div></div>
+        </div>
+    </div>
+
+    <!-- WIDGET: reflective check-in (no wrong answer) -->
+    <div class="optima-widget ow-reflect">
+      <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+      <div class="widget-question">Picture your favorite outdoor place. Which layer would grab your attention first? (No wrong answer. Just check in with yourself.)</div>
+      <div class="widget-options">
+        <button data-response="The foreground is where most viewers start, because it is the biggest and closest. Notice how much detail you would put there.">&#127807; The close-up front</button>
+        <button data-response="The middle ground often holds the main subject. It is the bridge between what is near and what is far.">&#127968; The middle</button>
+        <button data-response="The background sets the mood. Faraway hills and sky tell you how big the whole world of the picture is.">&#9968;&#65039; The far hills and sky</button>
+        <button data-response="Looking everywhere at once is what a good landscape invites. Your eye should be able to travel from front to back.">&#128064; All of it at once</button>
+      </div>
+      <div class="widget-feedback"></div>
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- PART 1 - Depth in a real landscape -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; DEPTH IN A REAL SCENE</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Reading a landscape in layers</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Look at a photograph of a green steel bridge crossing a built wetland, titled <em>Water Pollution Control</em> (Miller Hull, 1997). It is easy to read in three layers. Tall grasses fill the <strong>foreground</strong>, large and close. A curved stone wall and trees sit in the <strong>middle ground</strong>. The bridge towers and forested hills rise small and pale in the <strong>background</strong>. Your eye climbs from the grass at your feet up to the hills.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A painting can do the same with shape and color alone. In <em>Formal Landscape</em> (Martin, 2001), smooth orange and rust hills stack one behind another. A road and cars sit low in front, the rounded mounds build through the middle, and a pale sky closes the top. Because the front shapes overlap the ones behind them, the scene feels deep even though the surface is flat.</p>
+        <div style="background:#FDF3E3;border-left:4px solid #C7922C;border-radius:6px;padding:12px 16px;margin:10px 0;">
+            <div style="font-size:11px;color:#c7922c;margin-bottom:6px;">&#128269; FIND THE DEPTH</div>
+            <div style="font-size:15px;color:#1a2340;line-height:1.6;">Three quick signals tell you which layer is which: <strong>size</strong> (near is big, far is small), <strong>position</strong> (near is low, far is high), and <strong>overlap</strong> (whatever covers part of something else is in front of it).</div>
+        </div>
+    </div>
+
+    <!-- PART 2 - Featured: Hundertwasser (LINK-OUT, no embed, no CSS pseudo-art) -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128065; PART 2 &middot; MEET THE ARTIST</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Friedensreich Hundertwasser, <em>HundertwasserHaus</em></h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Friedensreich Hundertwasser was an Austrian artist and designer who believed straight lines were boring and that nature has almost none of them. From 1983 to 1986 A.D. he designed an apartment building in Vienna, Austria, now called the <em>HundertwasserHaus</em>. It is the inspiration for your project this week.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In the building, the floors and walls roll in <strong>wavy, uneven lines</strong> instead of flat ones. The front is broken into blocks of bright, unexpected color: white, golden yellow, slate blue, dusty rose, and gray, all sitting side by side. Windows come in many shapes and sizes, and each one is outlined in its own color, with little triangle caps of red, blue, yellow, and orange over some of them. Bulbous towers, curling iron balconies, and small mosaic tiles add even more <strong>pattern</strong>, and real trees and ivy grow right out of the rooftops.</p>
+        <div style="background:#FDF3E3;border-left:4px solid #C7922C;border-radius:6px;padding:12px 16px;margin:10px 0;">
+            <div style="font-size:11px;color:#c7922c;margin-bottom:6px;">&#127912; HIS SIGNATURE MOVES</div>
+            <div style="font-size:15px;color:#1a2340;line-height:1.6;"><strong>Organic curves</strong> instead of straight edges. <strong>Bright, surprising colors</strong> placed next to each other. <strong>Pattern everywhere</strong>: stripes, dots, and shapes covering walls, windows, and roofs. You will borrow all three in your landscape.</div>
+        </div>
+        <div style="margin: 10px 0 0 0;">
+            <a href="https://en.wikipedia.org/wiki/Hundertwasserhaus" target="_blank" rel="noopener" style="display: inline-block; background: #0E1C42; color: #ffffff; font-size: 14px; padding: 8px 16px; border-radius: 6px; text-decoration: none;">View the <em>HundertwasserHaus</em> &#8599;</a>
+            <div style="font-size: 13px; color: #888; font-style: italic; margin-top: 8px;">Friedensreich Hundertwasser, <em>HundertwasserHaus</em>, 1983 to 1986 A.D. Shown by link: this work is under copyright.</div>
+        </div>
+    </div>
+
+    <!-- WIDGET: evaluative single-select (placed AFTER teaching). Correct index varies: 1, 3, 2. -->
+    <div class="optima-widget ow-select">
+      <div class="widget-kicker">&#9889; TRY IT &middot; DEPTH AND STYLE</div>
+      <div class="widget-question">Read each one and pick the best answer. Tap to check it.</div>
+
+      <div class="widget-row" data-correct="1" data-fb="Right. Things in the foreground are closest, so they are drawn largest and lowest on the page." data-hint="Think about what is closest to you and how big it looks.">
+        <div class="widget-row-prompt">1. You want a tree to look like it is right in front of the viewer. Where and how should you draw it?</div>
+        <div class="widget-options">
+          <button data-choice="0">Small and high on the page</button>
+          <button data-choice="1">Large and low on the page</button>
+          <button data-choice="2">Medium and in the exact center</button>
+          <button data-choice="3">Behind the hills</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="3" data-fb="Yes. When one shape covers part of another, the one in front looks closer. That is overlap, and it builds depth fast." data-hint="Which trick uses one shape covering part of another?">
+        <div class="widget-row-prompt">2. Which is the quickest way to make one hill look like it sits in front of another?</div>
+        <div class="widget-options">
+          <button data-choice="0">Make both hills the same size</button>
+          <button data-choice="1">Use only straight lines</button>
+          <button data-choice="2">Color them both the same green</button>
+          <button data-choice="3">Let the front hill overlap the back hill</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="2" data-fb="Correct. Wavy, organic curves are a signature of Hundertwasser's style. He avoided straight lines on purpose." data-hint="Remember what Hundertwasser thought about straight lines.">
+        <div class="widget-row-prompt">3. Which choice best matches Hundertwasser's style for your landscape?</div>
+        <div class="widget-options">
+          <button data-choice="0">Sharp, ruler-straight rooftops</button>
+          <button data-choice="1">A plain gray sky with no texture</button>
+          <button data-choice="2">Wavy hills, patterned houses, bright unexpected colors</button>
+          <button data-choice="3">One color used for the whole picture</button>
+        </div>
+      </div>
+
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- WHAT YOU'LL DO NEXT - coral = make/studio -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO THIS WEEK</div>
+        <div class="act-row">
+            <div class="act-badge badge-coral">&#9999;&#65039;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Sketch: Layered Landscape Warm-Up</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Practice marking foreground, middle ground, and background, and try a few wavy hills with one pattern. A warm-up, not a finished piece.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge badge-gold">&#128221;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Quiz: Depth and Hundertwasser's Style</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short check on the layers of depth and the ideas you reviewed today.</div></div>
+        </div>
+        <div class="act-row" style="margin-bottom:0;">
+            <div class="act-badge badge-navy">&#127912;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Week 2 Artwork: Hundertwasser-Inspired Landscape</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Your graded project. Build a colorful, layered landscape full of curves, patterns, and whimsical houses, then sign it.</div></div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 4px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; BEFORE YOU MOVE ON</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">A flat page can hold a whole world once you stack it in layers and let your lines move. This week you will combine the depth of a real landscape with the playful curves, colors, and patterns of Hundertwasser to make a scene that is all your own.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; M/J VISUAL ART 2 &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.02 &middot; Landscape: Hundertwasser-Inspired Landscapes</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME - one delegated listener drives every engine ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite. Try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

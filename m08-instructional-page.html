@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M/J Visual Art 2 &mdash; Lesson 2.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS - see references/widgets.md (keep byte-consistent) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+
+    /* ===== TWO ACTIVITY ACCENTS: coral (make/studio) + teal (explore) ===== */
+    .act-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .act-badge { min-width: 34px; height: 34px; border-radius: 50%; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .badge-coral { background: #E4572E; }
+    .badge-teal { background: #1B9AAA; }
+    .badge-navy { background: #0E1C42; }
+    .badge-gold { background: #C7922C; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">M/J VISUAL ART 2</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q2 &middot; Module 8</div>
+        <div style="font-size: 12px; color: #666;">Pop Art (Wayne Thiebaud)</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 2.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Textured Cupcakes</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Module Theme</div>
+        <div style="font-size: 16px; color: #0e1c42;">Value, Texture, Unity, Proportion</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 2.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Pop Art: Textured Cupcakes</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How can thick paint and strong shadow turn a simple cupcake into something that looks good enough to eat?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">An American painter named Wayne Thiebaud built a career out of painting cakes, pies, and cupcakes. He used four tools you already know to do it: <strong>value</strong>, <strong>texture</strong>, <strong>unity</strong>, and <strong>proportion</strong>. Today you study how he did it, and you get ready to make your own textured cupcakes.</div>
+    </div>
+
+    <!-- I WILL BE ABLE TO objectives box -->
+    <div style="background: #EEF1F8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127919; I WILL BE ABLE TO</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Use value, texture, unity, and proportion together to build a cupcake artwork with a textured background.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Use accurate art vocabulary to describe how Wayne Thiebaud builds thick, real-looking frosting with paint.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0;"><span style="color: #c7922c; font-size: 20px; flex-shrink: 0; line-height: 1.2;">&#9744;</span><div style="font-size: 18px; color: #1a2340; line-height: 1.6;">Explain how Thiebaud's paintings connect to Pop Art and to the everyday American life of his time.</div></div>
+    </div>
+
+    <!-- WIDGET: reflective check-in (no wrong answer) - placed EARLY -->
+    <div class="optima-widget ow-reflect">
+      <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+      <div class="widget-question">If you were going to paint a dessert, which one would you choose? (No wrong answer. Just check in with yourself.)</div>
+      <div class="widget-options">
+        <button data-response="A cupcake is a great choice. The swirl of frosting on top is the perfect place to pile thick paint and show off texture.">&#129403; A cupcake</button>
+        <button data-response="Cake is a Thiebaud favorite. A tall slice lets you show layers, and the smooth frosting catches light and shadow.">&#127874; A slice of cake</button>
+        <button data-response="Ice cream is a strong pick. A scoop is a round form, so it is a perfect way to practice value from light to dark.">&#127846; Ice cream</button>
+        <button data-response="A pie has a clean wedge shape and a glossy filling. Repeating slices in a row is exactly how Thiebaud built his pie paintings.">&#129372; A slice of pie</button>
+      </div>
+      <div class="widget-feedback"></div>
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- ===== THE FOUR TOOLS (text review) ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 6px;">&#127912; FOUR TOOLS FOR THIS PROJECT</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 0 0 14px 0;">You have met all of these before. This cycle you will use these four on purpose. Keep them in mind as you study the real paintings below.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Value</strong><div style="font-size:13px;color:#555;">How light or dark something is. Shading from light to dark makes a flat shape look round.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Texture</strong><div style="font-size:13px;color:#555;">How a surface feels, or looks like it would feel. Thick paint can make frosting look real.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Unity</strong><div style="font-size:13px;color:#555;">All the parts working together as one, often through repeating the same shape.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Proportion</strong><div style="font-size:13px;color:#555;">The size of parts compared to each other, like a wide base under a tall swirl of frosting.</div></div>
+        </div>
+    </div>
+
+    <!-- PART 1 - Who was Wayne Thiebaud -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; WHO WAS WAYNE THIEBAUD?</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">The painter of cupcakes and cakes</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Wayne Thiebaud (1920 to 2021 A.D.) was an American painter known for bright, cheerful paintings of everyday desserts: cupcakes, cakes, pies, and ice cream. Before he was famous he worked as a cartoonist and a sign painter, which gave him clean outlines and a strong sense of design.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">His desserts are easy to spot because of four things: thick paint that looks almost like real frosting, bright pastel colors, strong shadows, and neat rows of repeated shapes. His work is often grouped with <strong>Pop Art</strong>, a movement that took everyday objects from American life and made them the subject of serious art. Thiebaud focused less on advertising and more on the simple joy of an ordinary treat.</p>
+    </div>
+
+    <!-- PART 2 - Look closely: Cakes (FEATURED, link-out) -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128065; PART 2 &middot; LOOK CLOSELY</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Wayne Thiebaud, <em>Display Cakes</em> (1963 A.D.)</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">In <em>Display Cakes</em>, held by the San Francisco Museum of Modern Art, rows of whole cakes sit on small white plates against a soft lavender-gray background. Each cake has a different top: a heart drawn in icing, a ring of dots, a pink pinwheel, a bold black-and-white spiral, and one cake cut open to show its layers. The frosting is painted so thickly that the ridges of the paint look like real swirls of icing you could touch.</p>
+        <div style="background:#FDF3E3;border-left:4px solid #C7922C;border-radius:6px;padding:12px 16px;margin:10px 0;">
+            <div style="font-size:11px;color:#c7922c;margin-bottom:6px;">&#128269; FIND THE FOUR TOOLS</div>
+            <div style="font-size:15px;color:#1a2340;line-height:1.6;"><strong>Value</strong> in the soft lavender shadow under each cake, which makes the cakes look round and solid. <strong>Texture</strong> in the thick, ridged frosting paint. <strong>Unity</strong> because the same kind of cake-on-a-plate repeats across the whole canvas. <strong>Proportion</strong> in each cake, where a wide bottom holds up a shorter, rounded top.</div>
+        </div>
+        <div style="margin: 10px 0 0 0;">
+            <a href="https://www.sfmoma.org/artwork/73.52/" target="_blank" rel="noopener" style="display: inline-block; background: #0E1C42; color: #ffffff; font-size: 14px; padding: 8px 16px; border-radius: 6px; text-decoration: none;">View Thiebaud's <em>Display Cakes</em> at SFMOMA &#8599;</a>
+            <div style="font-size: 13px; color: #888; font-style: italic; margin-top: 8px;">Wayne Thiebaud, <em>Display Cakes</em>, 1963 A.D. San Francisco Museum of Modern Art. Shown by link: this work is under copyright.</div>
+        </div>
+    </div>
+
+    <!-- PART 3 - More dessert paintings (link-outs) -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; MORE FROM THIEBAUD</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 14px 0;">The same four tools show up across all of his dessert paintings. Open each link, look for thick paint, strong shadow, and repeated shapes, then come back.</p>
+
+        <div style="border-left: 3px solid #C7922C; padding: 4px 0 4px 14px; margin-bottom: 14px;">
+            <div style="font-size: 17px; color: #0e1c42; margin-bottom: 4px;"><strong><em>Neapolitan Cupcakes</em> (2008 A.D.)</strong></div>
+            <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 8px 0;">Three cupcakes stand in a row, with white, chocolate, and pink frosting on gold-brown wrappers. The frosting paint is piled on so thick it casts its own tiny shadows. The three matching cupcakes give the piece <strong>unity</strong>.</p>
+            <a href="https://www.wikiart.org/en/wayne-thiebaud/neapolitan-cupcakes-2008" target="_blank" rel="noopener" style="display: inline-block; background: #0E1C42; color: #ffffff; font-size: 14px; padding: 8px 16px; border-radius: 6px; text-decoration: none;">View <em>Neapolitan Cupcakes</em> &#8599;</a>
+            <div style="font-size: 13px; color: #888; font-style: italic; margin-top: 6px;">Wayne Thiebaud, <em>Neapolitan Cupcakes</em>, 2008 A.D. Shown by link: this work is under copyright.</div>
+        </div>
+
+        <div style="border-left: 3px solid #C7922C; padding: 4px 0 4px 14px; margin-bottom: 14px;">
+            <div style="font-size: 17px; color: #0e1c42; margin-bottom: 4px;"><strong><em>Pies, Pies, Pies</em> (1961 A.D.)</strong></div>
+            <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 8px 0;">Rows of pie slices sit on white plates. The same wedge shape repeats again and again, which builds strong <strong>unity</strong> and shows off Thiebaud's love of neat rows. This work is held by the Crocker Art Museum.</p>
+            <a href="https://www.crockerart.org/art/detail/pies-pies-pies-wayne-thiebaud-1974-12" target="_blank" rel="noopener" style="display: inline-block; background: #0E1C42; color: #ffffff; font-size: 14px; padding: 8px 16px; border-radius: 6px; text-decoration: none;">View <em>Pies, Pies, Pies</em> at the Crocker Art Museum &#8599;</a>
+            <div style="font-size: 13px; color: #888; font-style: italic; margin-top: 6px;">Wayne Thiebaud, <em>Pies, Pies, Pies</em>, 1961 A.D. Crocker Art Museum. Shown by link: this work is under copyright.</div>
+        </div>
+
+        <div style="border-left: 3px solid #C7922C; padding: 4px 0 4px 14px; margin-bottom: 0;">
+            <div style="font-size: 17px; color: #0e1c42; margin-bottom: 4px;"><strong><em>Confections</em> (1962 A.D.)</strong></div>
+            <p style="font-size: 16px; color: #1a2340; line-height: 1.6; margin: 0 0 8px 0;">Tall parfait glasses hold layered desserts, each one casting a long shadow to the side. Watch how the light and dark <strong>value</strong> in the glass makes it look round and full. This work is held by the San Francisco Museum of Modern Art.</p>
+            <a href="https://www.sfmoma.org/artwork/2014.343/" target="_blank" rel="noopener" style="display: inline-block; background: #0E1C42; color: #ffffff; font-size: 14px; padding: 8px 16px; border-radius: 6px; text-decoration: none;">View <em>Confections</em> at SFMOMA &#8599;</a>
+            <div style="font-size: 13px; color: #888; font-style: italic; margin-top: 6px;">Wayne Thiebaud, <em>Confections</em>, 1962 A.D. San Francisco Museum of Modern Art. Shown by link: this work is under copyright.</div>
+        </div>
+    </div>
+
+    <!-- PART 4 - How to make frosting look real -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 4 &middot; HOW VALUE BUILDS FORM</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Light, middle, dark</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A cupcake top is a round form. To make a round shape look solid instead of flat, you use three values. The side facing the light is the <strong>highlight</strong> (lightest). The curve of the form is the <strong>midtone</strong>. The side away from the light is the <strong>shadow</strong> (darkest), and the surface below catches a <strong>cast shadow</strong>. This is exactly the light-and-shadow Thiebaud builds with his thick paint.</p>
+        <div style="background:#FDF3E3;border-left:4px solid #C7922C;border-radius:6px;padding:12px 16px;margin:10px 0;">
+            <div style="font-size:11px;color:#c7922c;margin-bottom:6px;">&#128161; STUDIO TIP</div>
+            <div style="font-size:15px;color:#1a2340;line-height:1.6;">Pick which way your light is coming from before you start, and keep every highlight on the same side and every shadow on the opposite side. Consistent light is what sells the form.</div>
+        </div>
+    </div>
+
+    <!-- WIDGET: evaluative single-select (placed AFTER teaching). Correct index varies: 1, 3, 2. -->
+    <div class="optima-widget ow-select">
+      <div class="widget-kicker">&#9889; TRY IT &middot; NAME THE TOOL</div>
+      <div class="widget-question">Read each one and pick the best match. Tap an answer to check it.</div>
+
+      <div class="widget-row" data-correct="1" data-fb="Right. Thick, ridged paint that looks like you could touch the frosting is texture." data-hint="Look again. Which tool is about how a surface looks like it would feel?">
+        <div class="widget-row-prompt">1. Thiebaud piles paint on so thickly that the frosting looks like real swirls of icing. Which tool is doing the work?</div>
+        <div class="widget-options">
+          <button data-choice="0">Proportion</button>
+          <button data-choice="1">Texture</button>
+          <button data-choice="2">Unity</button>
+          <button data-choice="3">Movement</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="3" data-fb="Yes. The same cupcake repeating across the row makes all the parts feel like one whole. That is unity." data-hint="Think about what happens when the same shape repeats so the piece feels like one.">
+        <div class="widget-row-prompt">2. In <em>Neapolitan Cupcakes</em>, three matching cupcakes line up in a neat row. Which tool does that repetition create?</div>
+        <div class="widget-options">
+          <button data-choice="0">Value</button>
+          <button data-choice="1">Texture</button>
+          <button data-choice="2">Proportion</button>
+          <button data-choice="3">Unity</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="2" data-fb="Correct. Shading from light to dark, plus the cast shadow, is value, and value is what makes the cupcake look round." data-hint="Which tool is about light and dark, and makes a round form look solid?">
+        <div class="widget-row-prompt">3. You shade one side of the frosting light and the other side dark, and add a shadow on the plate. Which tool makes it look 3D?</div>
+        <div class="widget-options">
+          <button data-choice="0">Pattern</button>
+          <button data-choice="1">Texture</button>
+          <button data-choice="2">Value</button>
+          <button data-choice="3">Proportion</button>
+        </div>
+      </div>
+
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- WHAT YOU'LL DO NEXT - coral = make/studio, gold = check/assess, navy = graded artwork -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO THIS WEEK</div>
+        <div class="act-row">
+            <div class="act-badge badge-coral">&#9999;&#65039;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Sketch: One Cupcake, Three Values</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Draw one cupcake and practice shading it with a highlight, a midtone, and a shadow so it looks round. A warm-up, not a finished piece.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge badge-gold">&#128221;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Quiz: Value, Texture, Unity, Proportion</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short check on the four tools and on Pop Art and Thiebaud.</div></div>
+        </div>
+        <div class="act-row" style="margin-bottom:0;">
+            <div class="act-badge badge-navy">&#127912;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Week 2 Artwork: Cupcakes with a Textured Background</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Your graded project. Draw one or more cupcakes with thick painterly value and shadow, add a textured background, then sign it.</div></div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 4px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; BEFORE YOU MOVE ON</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">Thiebaud took the most ordinary thing, a cupcake on a plate, and made it worth looking at by using value, texture, unity, and proportion on purpose. This week you will do the same. Plan your light, build your form, and let the paint show.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; M/J VISUAL ART 2 &middot; Quarter 2 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 2.04 &middot; Pop Art: Textured Cupcakes</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME - one delegated listener drives every engine ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite. Try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

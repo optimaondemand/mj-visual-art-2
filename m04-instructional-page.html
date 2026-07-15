@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M/J Visual Art 2 &mdash; Lesson 1.04</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS - see references/widgets.md (keep byte-consistent) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+
+    /* ===== SHAPE-BECOMES-FORM CONCEPT VISUAL (inline CSS, no images) ===== */
+    .sf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 6px 0 4px 0; }
+    .sf-pair { border: 1px solid #D0D9E8; border-radius: 8px; background: #fff; padding: 16px; }
+    .sf-pair-title { font-size: 14px; color: #0e1c42; font-weight: 600; margin-bottom: 12px; }
+    .sf-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .sf-demo { width: 90px; height: 90px; flex-shrink: 0; position: relative; }
+    .sf-arrow { font-size: 24px; color: #c7922c; flex-shrink: 0; }
+    .sf-caption { font-size: 12px; color: #666; text-align: center; margin-top: 10px; line-height: 1.4; }
+    .flat-circle { background: #2196d0; border-radius: 50%; }
+    /* Sphere: radial-gradient light source (highlight top-left), soft core shadow, cast shadow beneath */
+    .form-sphere {
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 26%, #ffffff 0%, #eaf3fb 8%, #a9c8e6 26%, #4d80b8 48%, #22456f 68%, #0e1c42 85%, #17325c 100%);
+        box-shadow: inset -14px -14px 22px rgba(14,28,66,0.55), inset 8px 8px 14px rgba(255,255,255,0.22);
+        filter: drop-shadow(0 10px 7px rgba(14,28,66,0.4));
+    }
+    .flat-square { background: #2196d0; }
+    /* Cube: three independent face layers (top lightest, front mid-tone, side darkest), each its own
+       clip-path polygon, so it reads as a solid tipped cube rather than two flat parallelograms.
+       The faces are siblings inside an unclipped wrapper so none of them get cut off by another's clip-path. */
+    .form-cube { position: relative; filter: drop-shadow(0 10px 7px rgba(14,28,66,0.4)); }
+    .cube-face { position: absolute; inset: 0; }
+    .cube-face.cube-top { clip-path: polygon(0% 25%, 50% 0%, 100% 25%, 50% 50%); background: linear-gradient(200deg, #eaf3fb 0%, #a9c8e6 100%); }
+    .cube-face.cube-front { clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 50% 50%); background: linear-gradient(160deg, #4d80b8 0%, #2a5486 100%); }
+    .cube-face.cube-side { clip-path: polygon(100% 25%, 50% 50%, 50% 100%, 100% 75%); background: linear-gradient(200deg, #1c3a63 0%, #0e1c42 100%); }
+
+    /* ===== VALUE SCALE (white to black) ===== */
+    .value-scale { display: flex; height: 46px; border: 1px solid #D0D9E8; border-radius: 6px; overflow: hidden; margin: 6px 0; }
+    .value-scale .vs-step { flex: 1; }
+    .value-grad { height: 46px; border: 1px solid #D0D9E8; border-radius: 6px; background: linear-gradient(90deg, #ffffff, #0e1c42); margin: 6px 0; }
+
+    /* ===== ACTIVITY ACCENTS: coral (make/studio) ===== */
+    .act-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .act-badge { min-width: 34px; height: 34px; border-radius: 50%; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .badge-coral { background: #E4572E; }
+    .badge-navy { background: #0E1C42; }
+    .badge-gold { background: #C7922C; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">M/J VISUAL ART 2</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q1 &middot; Module 4</div>
+        <div style="font-size: 12px; color: #666;">Form and Space: Impossible Form Stack</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Lesson</div>
+        <div style="font-size: 17px; color: #0e1c42;">Lesson 1.04</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Shape, Form, and Value</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Module Theme</div>
+        <div style="font-size: 16px; color: #0e1c42;">The Illusion of 3D</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+    <!-- Title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Lesson 1.04</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">From Flat Shape to Solid Form</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">How can a flat drawing trick your eye into seeing a solid object?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">A <strong>shape</strong> is flat. A <strong>form</strong> looks solid. The thing that turns one into the other is <strong>value</strong>, the way an artist moves from light to dark. Today you will see exactly how that works, then use it to build a stack of forms that pop off the page.</div>
+    </div>
+
+    <!-- OBJECTIVES: I will be able to (reuses the KEY IDEA callout box already on this page) -->
+    <div style="background:#EEF1F8;border-left:4px solid #0E1C42;border-radius:6px;padding:12px 16px;margin:10px 0 20px 0;">
+        <div style="font-size:11px;color:#0e1c42;margin-bottom:6px;">&#127919; I WILL BE ABLE TO</div>
+        <div style="font-size:15px;color:#1a2340;line-height:1.6;">
+            <div style="margin-bottom:4px;">&bull; Explain the difference between a shape (flat, 2D) and a form (solid, 3D)</div>
+            <div style="margin-bottom:4px;">&bull; Use a value scale, light to dark, to shade a shape so it looks like a solid form</div>
+            <div>&bull; Apply contrast and unity to build a stack of impossible forms that looks believable</div>
+        </div>
+    </div>
+
+    <!-- ===== CORE-CONCEPT VISUAL: shape becomes form with value ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 6px;">&#127912; SHAPE BECOMES FORM &middot; WATCH WHAT VALUE DOES</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 0 0 14px 0;">On the left is a flat shape. On the right is a solid form built from that same shape: shaded with value, and, for the cube, tipped so you can see its top and side faces too. The shading is what makes each one look solid.</p>
+        <div class="sf-grid">
+            <div class="sf-pair">
+                <div class="sf-pair-title">Circle into Sphere</div>
+                <div class="sf-row">
+                    <div class="sf-demo flat-circle"></div>
+                    <div class="sf-arrow">&#10142;</div>
+                    <div class="sf-demo form-sphere"></div>
+                </div>
+                <div class="sf-caption">Flat circle (2D shape) becomes a round sphere (3D form) once value is added.</div>
+            </div>
+            <div class="sf-pair">
+                <div class="sf-pair-title">Square into Cube</div>
+                <div class="sf-row">
+                    <div class="sf-demo flat-square"></div>
+                    <div class="sf-arrow">&#10142;</div>
+                    <div class="sf-demo form-cube">
+                        <span class="cube-face cube-top"></span>
+                        <span class="cube-face cube-front"></span>
+                        <span class="cube-face cube-side"></span>
+                    </div>
+                </div>
+                <div class="sf-caption">Flat square (2D shape) becomes a solid cube (3D form) when each face has its own value.</div>
+            </div>
+        </div>
+
+        <div style="font-size: 14px; color: #0e1c42; font-weight: 600; margin: 18px 0 4px 0;">The Value Scale: light to dark</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 0 0 6px 0;">Value runs all the way from white (lightest) to black (darkest), with grays in between. Artists pull from this whole range to shade a form.</p>
+        <div class="value-grad"></div>
+        <p style="font-size: 13px; color: #888; margin: 2px 0 0 0;">Lightest (white) on the left, darkest (almost black) on the right.</p>
+    </div>
+
+    <!-- WIDGET: reflective check-in (no wrong answer) -->
+    <div class="optima-widget ow-reflect">
+      <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+      <div class="widget-question">Before we go further: when you look at the sphere and cube above, what makes them feel solid to you? (No wrong answer. Just notice.)</div>
+      <div class="widget-options">
+        <button data-response="Good eye. The bright spot is the highlight, where light hits the form most directly. Highlights are the lightest values on a form.">&#9728;&#65039; The bright spot</button>
+        <button data-response="Yes. The dark side is the shadow, the part turned away from the light. The jump from light to dark is what sells the 3D look.">&#127769; The dark side</button>
+        <button data-response="Exactly. The smooth slide from light to dark is the value gradient. Your eye reads that gradual change as a curved, solid surface.">&#127777;&#65039; The smooth fade</button>
+        <button data-response="Fair answer. The outline does set the shape, but on its own a flat outline reads as 2D. It is the value inside the outline that adds the 3D illusion.">&#11093; The outline</button>
+      </div>
+      <div class="widget-feedback"></div>
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- PART 1 - Shape vs Form -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; SHAPE VERSUS FORM</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Two dimensions or three?</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>shape</strong> is a flat, 2D area. It has only height and width, no depth. Shapes appear when lines come together to close off a space. They can be geometric, like circles, squares, and triangles, or organic, like clouds and leaves.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>form</strong> is a 3D object. It has height, width, and depth. Forms can be geometric, like a cube, sphere, cone, cylinder, or pyramid, or organic, like rocks, people, and animals. In sculpture, a form is real and takes up actual space. In a drawing, the form is an illusion you create on a flat page.</p>
+        <div style="background:#FDF3E3;border-left:4px solid #C7922C;border-radius:6px;padding:12px 16px;margin:10px 0;">
+            <div style="font-size:11px;color:#c7922c;margin-bottom:6px;">&#128269; THE SHORT VERSION</div>
+            <div style="font-size:15px;color:#1a2340;line-height:1.6;"><strong>Shape</strong> = flat, height and width. <strong>Form</strong> = solid, height and width and depth. Most artists start with a shape, then build it into a form.</div>
+        </div>
+    </div>
+
+    <!-- PART 2 - Value makes the illusion -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; HOW VALUE BUILDS A FORM</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Light, midtone, and shadow</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;"><strong>Value</strong> is how light or dark something is. It is the tool that makes a flat shape look like a real form. When you shade an object, you usually show three things: a <strong>highlight</strong> where light hits hardest, a <strong>midtone</strong> in the middle, and a <strong>shadow</strong> on the side turned away from the light. The smooth move between them is what your eye reads as a curved, solid surface.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 14px 0;">Value also creates <strong>contrast</strong>, a strong difference between light and dark. Strong contrast makes a form pop. You will practice these forms in your sketch and final project.</p>
+    </div>
+
+    <!-- PART 3 - Impossible forms -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 3 &middot; PLAYING WITH THE ILLUSION</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Optical illusions and impossible forms</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Once you know that value creates the illusion of depth, you can bend that illusion on purpose. An <strong>optical illusion</strong> is an image that tricks the eye into seeing something that cannot exist. An <strong>impossible form</strong> is a drawing that looks solid and 3D at first glance, but could never be built in the real world, because its parts connect in ways that do not add up.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">These tricks work because of <strong>unity</strong>: every part of the drawing uses the same shading rules, so your brain accepts the whole thing as one solid object, even when it secretly does not make sense. That tension between "looks real" and "cannot be real" is what makes impossible forms so fun to look at.</p>
+        <div style="background:#EEF1F8;border-left:4px solid #0E1C42;border-radius:6px;padding:12px 16px;margin:10px 0;">
+            <div style="font-size:11px;color:#0e1c42;margin-bottom:6px;">&#128161; KEY IDEA</div>
+            <div style="font-size:15px;color:#1a2340;line-height:1.6;">Strong, consistent value sells the illusion. The more each form reads as solid, the more your eye believes the impossible stack.</div>
+        </div>
+    </div>
+
+    <!-- WIDGET: evaluative single-select (placed AFTER teaching). Correct index varies: 2, 3, 1. -->
+    <div class="optima-widget ow-select">
+      <div class="widget-kicker">&#9889; TRY IT &middot; SHAPE, FORM, OR VALUE?</div>
+      <div class="widget-question">Read each one and pick the best answer. Tap to check it.</div>
+
+      <div class="widget-row" data-correct="2" data-fb="Right. A flat outline with only height and width is a shape. No depth, no shading yet." data-hint="Flat, only height and width, no depth. What is that called?">
+        <div class="widget-row-prompt">1. You draw a plain circle outline with nothing inside it. Is that a shape or a form, and why?</div>
+        <div class="widget-options">
+          <button data-choice="0">A form, because circles are round</button>
+          <button data-choice="1">A form, because it has depth</button>
+          <button data-choice="2">A shape, because it is flat with no depth</button>
+          <button data-choice="3">Neither, until you color it</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="3" data-fb="Yes. Value, the move from light to dark, is what gives a flat shape the illusion of being a solid 3D form." data-hint="Which one is about lightness and darkness?">
+        <div class="widget-row-prompt">2. Which Element turns a flat circle into a sphere that looks solid?</div>
+        <div class="widget-options">
+          <button data-choice="0">Pattern</button>
+          <button data-choice="1">Texture</button>
+          <button data-choice="2">Line</button>
+          <button data-choice="3">Value</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="1" data-fb="Correct. A strong difference between light and dark is contrast, and it makes a form pop off the page." data-hint="What do we call a strong difference between light and dark?">
+        <div class="widget-row-prompt">3. You shade one side of a cube very dark and leave the top nearly white. That strong light-to-dark difference is called what?</div>
+        <div class="widget-options">
+          <button data-choice="0">Balance</button>
+          <button data-choice="1">Contrast</button>
+          <button data-choice="2">Proportion</button>
+          <button data-choice="3">Rhythm</button>
+        </div>
+      </div>
+
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- WHAT YOU'LL DO NEXT - coral = make/studio -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO THIS WEEK</div>
+        <div class="act-row">
+            <div class="act-badge badge-coral">&#9999;&#65039;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Sketch: Value Scale and One Form</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Draw a value scale, then shade one sphere or cube using it. A warm-up to practice turning a shape into a form.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge badge-gold">&#128221;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Quiz: Form, Space, and Value</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short check on shape versus form, value, contrast, and unity.</div></div>
+        </div>
+        <div class="act-row" style="margin-bottom:0;">
+            <div class="act-badge badge-navy">&#127912;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Week 2 Artwork: Impossible Form Stack</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Your graded project. Stack shaded 3D forms into a 2D sculpture, then sign it.</div></div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 4px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; BEFORE YOU MOVE ON</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">You now know the secret behind solid-looking art: a shape becomes a form when value is added. Carry that idea into the studio. The stronger your value and contrast, the more your forms will pop, and the more believable your impossible stack will be.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; M/J VISUAL ART 2 &middot; Quarter 1 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Lesson 1.04 &middot; From Flat Shape to Solid Form</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME - one delegated listener drives every engine ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite. Try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

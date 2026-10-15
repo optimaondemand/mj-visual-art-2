@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M/J Visual Art 2 &mdash; Module 17 Instructional Page</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS - see references/widgets.md (keep byte-consistent) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+
+    /* ===== ACTIVITY ACCENTS: coral (make/studio) ===== */
+    .act-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .act-badge { min-width: 34px; height: 34px; border-radius: 50%; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .badge-coral { background: #E4572E; }
+    .badge-navy { background: #0E1C42; }
+    .badge-gold { background: #C7922C; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">M/J VISUAL ART 2</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 17</div>
+        <div style="font-size: 12px; color: #666;">Sculpture &amp; Exhibit Design</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Item</div>
+        <div style="font-size: 17px; color: #0e1c42;">Instructional Page</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">3D Mini Galleries</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Module Theme</div>
+        <div style="font-size: 16px; color: #0e1c42;">Year-End Retrospective</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+<!-- ═══ OPTIMA READ-ALOUD PLAYER ═══ -->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+
+
+    <!-- Title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Module 17</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">3D Mini Galleries: Designing a Space for Art</div>
+        <div style="font-size: 16px; color: #666;">Instructional Page</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">When you walk into a gallery, why do the artworks feel like they belong together?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">All year you made flat artworks on paper. This last module turns the page on its side and into the third dimension. You become a <strong>curator</strong>: the person who decides which works go in a space and how they are arranged. A gallery is itself a kind of artwork. The choices a curator makes about <strong>form</strong>, <strong>space</strong>, <strong>balance</strong>, <strong>unity</strong>, and <strong>proportion</strong> are what make a room of separate pieces feel like one whole.</div>
+    </div>
+
+    <!-- ===== OBJECTIVES BOX ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#9989; I WILL BE ABLE TO</div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span><div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Explain how a curator uses design ideas such as form, space, balance, unity, and proportion to arrange a space.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span><div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Plan and build a 3D mini gallery that curates a retrospective show of your own artworks from this year.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span><div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Write exhibit labels that identify a piece's title, medium, and the skill it practiced.</div></div>
+        <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0; border-left: 3px solid #D0D9E8; padding-left: 14px;"><span style="color: #c7922c; font-size: 18px; flex-shrink: 0;">&#9654;</span><div style="font-size: 17px; color: #1a2340; line-height: 1.6;">Describe how the way art is displayed changes what an audience experiences.</div></div>
+    </div>
+
+    <!-- ===== FROM 2D TO 3D ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 6px;">&#127968; FROM A FLAT PAGE TO A REAL SPACE</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A drawing has length and width. It is <strong>two-dimensional</strong>, or 2D, which means flat. A sculpture and a gallery space also have <strong>depth</strong>, so they are <strong>three-dimensional</strong>, or 3D. A 3D object that takes up real space is called a <strong>form</strong>. You can walk around a form and see it from many sides.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0;">When you design a gallery, you are working with two kinds of space at once: the <strong>positive space</strong> taken up by the artworks and props, and the <strong>negative space</strong> (the empty room) that lets a viewer move and breathe between them.</p>
+    </div>
+
+    <!-- WIDGET: reflective check-in (no wrong answer) -->
+    <div class="optima-widget ow-reflect">
+      <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+      <div class="widget-question">As you plan your gallery, which feeling do you want a visitor to have when they walk in? (No wrong answer. Just check in with yourself.)</div>
+      <div class="widget-options">
+        <button data-response="A calm gallery often uses lots of negative space and pieces spaced far apart, so the eye rests. Notice how much empty room you leave.">&#127755; Calm and quiet</button>
+        <button data-response="An exciting gallery can group pieces closely and play with different heights. Watch your balance so it feels lively, not cluttered.">&#127881; Lively and bold</button>
+        <button data-response="A focused gallery leads the eye to one main piece first. Think about where a visitor looks the moment they walk in.">&#127919; Focused on one star piece</button>
+        <button data-response="A story gallery arranges pieces in an order the viewer walks through, like chapters. Plan the path their feet will take.">&#128279; Like walking through a story</button>
+      </div>
+      <div class="widget-feedback"></div>
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- PART 1 - The curator's design tools -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; THE CURATOR'S DESIGN TOOLS</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Same words, new job</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 14px 0;">You already know these words from making single artworks. A curator uses the same Elements and Principles, but now the "artwork" is the whole room. Here is what each one means when you arrange a space.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px;">
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Form</strong><div style="font-size:13px;color:#555;">The 3D objects in the room: sculptures, frames, stands, the walls themselves.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Space</strong><div style="font-size:13px;color:#555;">The room a viewer walks through, plus the gaps you leave between pieces.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Texture</strong><div style="font-size:13px;color:#555;">The surfaces in the room, from a smooth frame to a rough props or fabric.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Balance</strong><div style="font-size:13px;color:#555;">Spreading the visual weight so one wall does not feel heavier than another.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Unity</strong><div style="font-size:13px;color:#555;">The sense that every piece belongs together, like one collection.</div></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Proportion</strong><div style="font-size:13px;color:#555;">How big each piece is next to its neighbors and next to the room.</div></div>
+        </div>
+    </div>
+
+    <!-- PART 2 - How a curator arranges a space -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128065; PART 2 &middot; HOW A CURATOR ARRANGES A SPACE</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Moving the viewer through the room</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A curator thinks about a visitor's feet, not just their eyes. Where does a person enter? What do they see first? Where do they walk next? A good arrangement uses <strong>space</strong> to set a path, and uses <strong>balance</strong> so no corner feels crowded while another sits empty.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;"><strong>Unity</strong> is what makes the room feel like one show instead of a pile of random objects. Curators build unity by repeating something: a color, a frame style, a theme, or a subject. <strong>Proportion</strong> keeps the sizes sensible, so a tiny piece is not lost on a giant wall and a huge piece does not swallow its neighbors.</p>
+
+        <div style="background:#FDF3E3;border-left:4px solid #C7922C;border-radius:6px;padding:12px 16px;margin:10px 0;">
+            <div style="font-size:11px;color:#c7922c;margin-bottom:6px;">&#128269; A CURATOR'S CHECKLIST</div>
+            <div style="font-size:15px;color:#1a2340;line-height:1.6;">Before opening a show, a curator asks: Is there a clear <strong>first piece</strong> the eye lands on? Is the visual weight <strong>balanced</strong> across the walls? Does something repeat to create <strong>unity</strong>? Is there enough empty <strong>space</strong> to walk and look? Are the pieces in <strong>proportion</strong> to the room and to each other?</div>
+        </div>
+    </div>
+
+    <!-- FRAMES, LABELS, AND WALKING THE ROOM -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128220; FRAMES, LABELS, AND WALKING THE ROOM</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Finishing touches that turn objects into an exhibit</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Two more choices separate a pile of art from a real exhibit. The first is the <strong>frame</strong>: giving each piece an edge or mount tells a visitor where one work ends and the next begins. The second is the <strong>label</strong>. A real museum label is short: it names the <strong>title</strong> of the piece, the <strong>medium</strong> it is made from, and often a line about what the piece is doing. Without a label, even a strong piece can feel unfinished, because the visitor has no way to know what they are looking at.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0;">Once everything is placed and labeled, a curator does one last thing: they walk the room like a first-time visitor. Which piece does the eye land on first? Does anything feel crowded or bare? Does something repeat enough to feel like unity, or does the room feel like scattered objects? A curator adjusts before calling a show finished, and so will you.</p>
+    </div>
+
+    <!-- PART 3 - This is your capstone -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#127891; PART 3 &middot; YOUR YEAR, IN ONE SPACE</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">The capstone</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">This is the last module of the year, so your gallery has a special job. You have made many artworks across these quarters. Now you get to be the curator of your own collection: a retrospective of the artworks you have made this year. You will design and build a <strong>3D mini gallery</strong> and fill it with several of your own finished pieces from earlier modules, arranged and labeled on purpose.</p>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0;">This is what artists, designers, and curators do for a living. Choosing what to show and how to show it is its own creative act. By the end of this module you will have turned a year of single pieces into one exhibit that says, "Here is what I made, and here is how it fits together."</p>
+    </div>
+
+    <!-- WIDGET: evaluative single-select (placed AFTER teaching). Correct index varies: 2, 0, 3, 1. -->
+    <div class="optima-widget ow-select">
+      <div class="widget-kicker">&#9889; TRY IT &middot; THINK LIKE A CURATOR</div>
+      <div class="widget-question">Read each design situation and pick the best match. Tap an answer to check it.</div>
+
+      <div class="widget-row" data-correct="2" data-fb="Right. A 3D object you can walk around and view from many sides is a form. A flat drawing is a 2D shape." data-hint="Think about which word means a 3D object with real depth.">
+        <div class="widget-row-prompt">1. A small clay sculpture sits in the center of the gallery. You can walk all the way around it. Which Element best describes that sculpture?</div>
+        <div class="widget-options">
+          <button data-choice="0">Shape</button>
+          <button data-choice="1">Value</button>
+          <button data-choice="2">Form</button>
+          <button data-choice="3">Pattern</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="0" data-fb="Yes. Leaving empty room between pieces is using space on purpose, so the viewer can move and the eye can rest." data-hint="Which idea is about the empty room a visitor walks through?">
+        <div class="widget-row-prompt">2. You leave a comfortable gap of empty wall between each framed piece so visitors can step back and look. Which idea are you using on purpose?</div>
+        <div class="widget-options">
+          <button data-choice="0">Space</button>
+          <button data-choice="1">Texture</button>
+          <button data-choice="2">Proportion</button>
+          <button data-choice="3">Color</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="3" data-fb="Correct. Repeating one frame color across the whole show ties the pieces together. That sense of belonging is unity." data-hint="Which Principle is about all the parts feeling like they belong together?">
+        <div class="widget-row-prompt">3. You give every piece in your gallery the same gold frame so the collection feels like one show. Which Principle is doing that work?</div>
+        <div class="widget-options">
+          <button data-choice="0">Contrast</button>
+          <button data-choice="1">Movement</button>
+          <button data-choice="2">Texture</button>
+          <button data-choice="3">Unity</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="1" data-fb="Right. When one wall is packed and the others are bare, the room feels lopsided. A curator fixes that with balance." data-hint="Which Principle is about spreading the visual weight evenly across the space?">
+        <div class="widget-row-prompt">4. Five of your six pieces are crowded on one wall, and the other walls are empty. A visitor says the room feels lopsided. Which Principle should you adjust?</div>
+        <div class="widget-options">
+          <button data-choice="0">Proportion</button>
+          <button data-choice="1">Balance</button>
+          <button data-choice="2">Form</button>
+          <button data-choice="3">Texture</button>
+        </div>
+      </div>
+
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- WHAT YOU'LL DO NEXT - coral = make/studio -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO THIS MODULE</div>
+        <div class="act-row">
+            <div class="act-badge badge-coral">&#9999;&#65039;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 17.01 Sketch: Gallery Floor-Plan: Plan Your Layout</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Plan your layout from above: where each piece goes and how a visitor walks through. A warm-up, not the finished build.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge" style="background:#1B9AAA">&#129405;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 17.02 VR: Curate a Mini Gallery</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Set up a gallery corner, add props and labels, and walk it like a visitor.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge badge-navy">&#128172;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 17.03 Discussion Board: Gallery Walk: Two Stars and a Wish</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Share your mini gallery, explain one design choice, and reply to two classmates.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge badge-navy">&#127912;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 17.04 Studio Project &amp; Reflection: 3D Mini Gallery: Your Year in Review</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Your graded project. Gather several of your own artworks from this year, build a mini gallery that curates them with real exhibit labels, then write an artist statement about your growth.</div></div>
+        </div>
+        <div class="act-row" style="margin-bottom:0;">
+            <div class="act-badge badge-gold">&#128221;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 17.05 Short Quiz: 3D Form &amp; Exhibit Design</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short check on form, space, balance, unity, proportion, and how a curator works.</div></div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 4px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; BEFORE YOU MOVE ON</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">You started the year naming the building blocks of art. You finish it deciding how a whole space full of art fits together. That is the curator's eye, and it is yours now. Build your gallery on purpose, and let it show the artist you have become this year.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; M/J VISUAL ART 2 &middot; Quarter 4 &middot; Student Lesson Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Module 17 Instructional Page &middot; Sculpture &amp; Exhibit Design: 3D Mini Galleries</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME - one delegated listener drives every engine ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite. Try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>

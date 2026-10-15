@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M/J Visual Art 2 &mdash; Module 13 Instructional Page</title>
+<style>
+    body { margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; }
+    .canvas-frame { max-width: 1100px; margin: 0 auto; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ===== WIDGET CSS - see references/widgets.md (keep byte-consistent) ===== */
+    .optima-widget { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+    .widget-kicker { font-size: 11px; color: #1B6A94; margin-bottom: 10px; letter-spacing: 0.4px; }
+    .widget-question { font-size: 17px; color: #0E1C42; margin-bottom: 14px; line-height: 1.55; }
+    .widget-row { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
+    .widget-row-prompt { font-size: 15px; color: #0E1C42; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+    .widget-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .widget-options button { background: #FFFFFF; border: 1.5px solid #D0D9E8; border-radius: 8px; padding: 8px 14px; font-size: 14px; color: #0E1C42; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .widget-options button:hover { background: #F4F6FA; border-color: #55C8E8; }
+    .widget-options button.selected { background: #0E1C42; color: #FFFFFF; border-color: #0E1C42; }
+    .widget-options button.correct { background: #D8F0DD; border-color: #2A9D5C; color: #1A6B3D; }
+    .widget-options button.incorrect { background: #FDECEC; border-color: #C0392B; color: #8A1F16; }
+    .widget-feedback { background: #FFFFFF; border-left: 3px solid #C7922C; padding: 10px 14px; font-size: 15px; color: #1a2340; line-height: 1.55; margin: 10px 0; display: none; border-radius: 4px; }
+    .widget-feedback.show { display: block; }
+    .row-feedback { padding: 8px 12px; margin-top: 8px; font-size: 14px; border-radius: 4px; line-height: 1.5; }
+    .row-feedback.correct { background: #D8F0DD; border-left: 3px solid #2A9D5C; color: #1A6B3D; }
+    .row-feedback.incorrect { background: #FDECEC; border-left: 3px solid #C0392B; color: #8A1F16; }
+    .widget-reset { background: transparent; border: 1px solid #C7922C; color: #C7922C; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-top: 6px; }
+    .widget-reset:hover { background: #FDF3E3; }
+    .ow-flip { background: #FFFFFF; border: 1px solid #D0D9E8; border-radius: 8px; padding: 18px 20px; cursor: pointer; text-align: center; }
+    .ow-flip .ow-flip-back { display: none; color: #1a2340; }
+    .ow-flip.flipped .ow-flip-front { display: none; }
+    .ow-flip.flipped .ow-flip-back { display: block; }
+
+    /* ===== ACTIVITY ACCENT: coral (make/studio) ===== */
+    .act-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .act-badge { min-width: 34px; height: 34px; border-radius: 50%; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .badge-coral { background: #E4572E; }
+    .badge-navy { background: #0E1C42; }
+    .badge-gold { background: #C7922C; }
+
+    /* ===== COLOR WHEEL TOOL (a color-theory instrument, not an artwork) ===== */
+    .cw-wrap { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: center; }
+    .cw-ring { position: relative; width: 280px; height: 280px; border-radius: 50%;
+        background: conic-gradient(
+            #E4332B 0deg 30deg,
+            #E8602A 30deg 60deg,
+            #F08A1E 60deg 90deg,
+            #F6B41C 90deg 120deg,
+            #F4DA1C 120deg 150deg,
+            #A9C93A 150deg 180deg,
+            #3FA34D 180deg 210deg,
+            #2C8E8A 210deg 240deg,
+            #2B6FB0 240deg 270deg,
+            #3F4F9E 270deg 300deg,
+            #6A3D9A 300deg 330deg,
+            #A82B6E 330deg 360deg);
+        border: 4px solid #0E1C42; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    .cw-hub { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 96px; height: 96px; border-radius: 50%; background: #FFFFFF; border: 2px solid #0E1C42; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11px; color: #0E1C42; line-height: 1.3; padding: 8px; box-sizing: border-box; }
+    .cw-key { font-size: 14px; color: #1a2340; line-height: 1.7; }
+    .cw-key div { margin-bottom: 4px; }
+    .cw-chip { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.2); }
+    .cw-tag { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 9px; margin-left: 6px; vertical-align: middle; }
+    .cw-tag.primary { background: #0E1C42; color: #fff; }
+    .cw-tag.secondary { background: #C7922C; color: #fff; }
+</style>
+</head>
+<body>
+<div class="canvas-frame">
+
+<!-- ===== HEADER ===== -->
+<div style="background: #0E1C42; border-bottom: 5px solid #55C8E8; padding: 22px 34px;">
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><img src="https://raw.githubusercontent.com/optimaondemand/optima-assets/eeb0b335630058906d52f478028361d352253a93/images/Optima%20Final%20Circle%20-%20Owl%20Only.png" alt="Optima Academy" style="width: 50px; height: 40px; object-fit: contain;" /></div>
+        <div>
+            <div style="font-size: 28px; color: #ffffff; line-height: 1.2;">Optima Academy Online</div>
+            <div style="font-size: 12px; color: #55c8e8;">An Education Experience Company</div>
+        </div>
+    </div>
+    <div style="font-size: 36px; color: #ffffff; margin-bottom: 6px;">M/J VISUAL ART 2</div>
+</div>
+
+<!-- ===== METADATA STRIP ===== -->
+<div style="background: #FFFFFF; border-bottom: 2px solid #D0D9E8; display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Quarter / Module</div>
+        <div style="font-size: 17px; color: #0e1c42;">Q4 &middot; Module 13</div>
+        <div style="font-size: 12px; color: #666;">Color Theory: Color Wheel</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Item</div>
+        <div style="font-size: 17px; color: #0e1c42;">Instructional Page</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px; border-right: 1px solid #D0D9E8;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Topic</div>
+        <div style="font-size: 17px; color: #0e1c42; font-style: italic;">Color Theory: Color Wheel</div>
+    </div>
+    <div style="flex: 1; min-width: 140px; padding: 12px 16px;">
+        <div style="font-size: 11px; color: #6b7a99; margin-bottom: 4px;">Module Theme</div>
+        <div style="font-size: 16px; color: #0e1c42;">Mixing and Relationships</div>
+    </div>
+</div>
+
+<!-- ===== BODY WRAPPER ===== -->
+<div style="padding: 24px 34px;">
+
+<!-- ═══ OPTIMA READ-ALOUD PLAYER ═══ -->
+<div id="optima-read-aloud">
+<style>
+    #optima-read-aloud { background: linear-gradient(135deg, #E8F6FB 0%, #F4F9FC 100%); border: 1px solid #C5DCE5; border-left: 5px solid #2196D0; border-radius: 8px; padding: 14px 18px; margin: 0 0 20px 0; }
+    #optima-read-aloud .ora-kicker { font-size: 11px; color: #1B6A94; letter-spacing: 0.4px; margin-bottom: 10px; }
+    #optima-read-aloud .ora-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    #optima-read-aloud .ora-controls button { border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    #ora-play { background: #0E1C42; color: #FFFFFF; border: 1.5px solid #0E1C42; }
+    #ora-play:hover:enabled { background: #1B2D5E; }
+    #ora-play:disabled { background: #D0D9E8; border-color: #D0D9E8; color: #6b7a99; cursor: default; }
+    #ora-stop { background: #FFFFFF; color: #0E1C42; border: 1.5px solid #D0D9E8; }
+    #ora-stop:hover:enabled { background: #F4F6FA; border-color: #55C8E8; }
+    #ora-stop:disabled { color: #999; border-color: #E4E9F2; cursor: default; }
+    #optima-read-aloud .ora-speed { font-size: 12px; color: #6b7a99; display: flex; align-items: center; gap: 6px; }
+    #ora-rate { font-family: inherit; font-size: 13px; color: #0E1C42; border: 1.5px solid #D0D9E8; border-radius: 6px; padding: 5px 8px; background: #FFFFFF; }
+    #ora-status { font-size: 12px; color: #666; }
+    .ora-highlight { background: #FDF3E3 !important; box-shadow: inset 4px 0 0 #C7922C; border-radius: 4px; transition: background 0.2s; }
+</style>
+    <div class="ora-kicker">&#128266; READ ALOUD &mdash; LISTEN TO THIS PAGE</div>
+    <div class="ora-controls">
+        <button id="ora-play" type="button" aria-label="Listen to this page">&#9654;&#65039; Listen</button>
+        <button id="ora-stop" type="button" aria-label="Stop reading" disabled>&#9632; Stop</button>
+        <label class="ora-speed">Speed
+            <select id="ora-rate" aria-label="Reading speed">
+                <option value="0.8">Slower</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.25">Faster</option>
+            </select>
+        </label>
+        <span id="ora-status" role="status" aria-live="polite"></span>
+    </div>
+<script>
+(function () {
+    "use strict";
+    var playBtn  = document.getElementById("ora-play");
+    var stopBtn  = document.getElementById("ora-stop");
+    var rateSel  = document.getElementById("ora-rate");
+    var statusEl = document.getElementById("ora-status");
+
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        playBtn.disabled = true;
+        rateSel.disabled = true;
+        statusEl.textContent = "Read-aloud is not supported in this browser.";
+        return;
+    }
+
+    var LABEL_PLAY   = "▶️ Listen";
+    var LABEL_PAUSE  = "⏸️ Pause";
+    var LABEL_RESUME = "▶️ Resume";
+    var BLOCK_SEL = "p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, dt, dd, figcaption, div";
+    var SKIP_SEL  = "#optima-read-aloud, [data-ra-skip], button, script, style, select, noscript, iframe";
+
+    var queue = [];        // [{ el, text }] — one entry per sentence
+    var idx = 0;
+    var playing = false, paused = false, stopping = false;
+    var currentBlock = null;
+    var currentUtterance = null;  // held to dodge a Chrome garbage-collection bug
+
+    var voices = [];
+    function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+    loadVoices();
+    if ("onvoiceschanged" in window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    function pickVoice() {
+        if (!voices.length) loadVoices();
+        var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+        return en.filter(function (v) { return /natural/i.test(v.name); })[0]
+            || en.filter(function (v) { return /google us english/i.test(v.name); })[0]
+            || en.filter(function (v) { return v.default; })[0]
+            || en[0] || null;
+    }
+
+    function isVisible(el) {
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    }
+
+    // Walk text nodes, attach each to its nearest block ancestor, split into sentences.
+    function collectQueue() {
+        var root = document.querySelector("[data-readaloud-root]")
+                || document.querySelector(".canvas-frame")
+                || document.body;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+        var items = [];   // [{ el, text }] — one entry per block, in reading order
+        var node;
+        while ((node = walker.nextNode())) {
+            if (!/\S/.test(node.textContent)) continue;
+            var el = node.parentElement;
+            if (!el || el.closest(SKIP_SEL)) continue;
+            if (!isVisible(el)) continue;
+            var block = el.closest(BLOCK_SEL) || root;
+            var last = items[items.length - 1];
+            if (last && last.el === block) last.text += " " + node.textContent;
+            else items.push({ el: block, text: node.textContent });
+        }
+        var q = [];
+        items.forEach(function (item) {
+            var clean = item.text.replace(/\s+/g, " ").trim();
+            if (!clean) return;
+            var sentences = clean.match(/[^.!?]+[.!?]+[”"')\]]*\s*|[^.!?]+$/g) || [clean];
+            sentences.forEach(function (s) {
+                s = s.trim();
+                if (s) q.push({ el: item.el, text: s });
+            });
+        });
+        return q;
+    }
+
+    function highlight(el) {
+        if (el === currentBlock) return;
+        clearHighlight();
+        currentBlock = el;
+        if (el && el !== document.body) {
+            el.classList.add("ora-highlight");
+            try { el.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+        }
+    }
+    function clearHighlight() {
+        if (currentBlock) currentBlock.classList.remove("ora-highlight");
+        currentBlock = null;
+    }
+
+    function speakNext() {
+        if (idx >= queue.length) { finish("Finished reading this page."); return; }
+        var item = queue[idx];
+        highlight(item.el);
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.rate = parseFloat(rateSel.value) || 1;
+        var v = pickVoice();
+        if (v) u.voice = v;
+        u.onend = function () {
+            if (stopping) return;
+            idx++;
+            speakNext();
+        };
+        u.onerror = function (e) {
+            if (stopping || e.error === "canceled" || e.error === "interrupted") return;
+            idx++;
+            speakNext();
+        };
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+        statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+    }
+
+    function finish(message) {
+        playing = false;
+        paused = false;
+        clearHighlight();
+        playBtn.textContent = LABEL_PLAY;
+        stopBtn.disabled = true;
+        statusEl.textContent = message || "";
+        currentUtterance = null;
+    }
+
+    playBtn.addEventListener("click", function () {
+        if (playing && !paused) {
+            window.speechSynthesis.pause();
+            paused = true;
+            playBtn.textContent = LABEL_RESUME;
+            statusEl.textContent = "Paused";
+            return;
+        }
+        if (playing && paused) {
+            window.speechSynthesis.resume();
+            paused = false;
+            playBtn.textContent = LABEL_PAUSE;
+            statusEl.textContent = "Reading… " + (idx + 1) + " / " + queue.length;
+            return;
+        }
+        queue = collectQueue();
+        if (!queue.length) { statusEl.textContent = "Nothing to read on this page."; return; }
+        idx = 0;
+        stopping = false;
+        playing = true;
+        paused = false;
+        window.speechSynthesis.cancel();
+        playBtn.textContent = LABEL_PAUSE;
+        stopBtn.disabled = false;
+        speakNext();
+    });
+
+    stopBtn.addEventListener("click", function () {
+        stopping = true;
+        window.speechSynthesis.cancel();
+        finish("");
+    });
+
+    // Changing speed mid-read restarts the current sentence at the new rate.
+    rateSel.addEventListener("change", function () {
+        if (!playing || paused) return;
+        stopping = true;
+        window.speechSynthesis.cancel();
+        setTimeout(function () { stopping = false; speakNext(); }, 60);
+    });
+
+    window.addEventListener("pagehide", function () { window.speechSynthesis.cancel(); });
+})();
+</script>
+</div>
+<!-- ═══ END OPTIMA READ-ALOUD PLAYER ═══ -->
+
+
+
+    <!-- Title strip -->
+    <div style="background: #EEF1F8; border-left: 5px solid #0E1C42; border-radius: 7px; padding: 18px 22px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #0e1c42; margin-bottom: 6px;">Module 13</div>
+        <div style="font-size: 22px; color: #0e1c42; margin-bottom: 4px;">Color Theory: The Color Wheel</div>
+        <div style="font-size: 16px; color: #666;">Lesson</div>
+    </div>
+
+    <!-- Today's Focus -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128214; TODAY'S FOCUS</div>
+        <div style="font-size: 20px; color: #0e1c42; font-style: italic; margin-bottom: 10px;">Where do all the colors come from, and how do artists keep track of them?</div>
+        <div style="font-size: 18px; color: #1a2340; line-height: 1.65;">Out of just three colors, an artist can mix almost any other. The <strong>color wheel</strong> is the map that shows how. Today you learn the three primary colors, the secondary colors you mix from them, the full twelve-hue wheel, and the difference between warm and cool colors. Keep the wheel below in front of you the whole lesson.</div>
+    </div>
+
+    <!-- By the end of this module objectives box -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#127919; BY THE END OF THIS MODULE, YOU WILL BE ABLE TO</div>
+        <ul style="margin: 0; padding-left: 22px; font-size: 17px; color: #1a2340; line-height: 1.7;">
+            <li>Name the three primary colors and the three secondary colors, and explain how each secondary is mixed</li>
+            <li>Place all twelve hues of the color wheel in their correct order, including primary, secondary, and tertiary colors</li>
+            <li>Sort colors into warm and cool families and describe how each family changes the feeling of an artwork</li>
+        </ul>
+    </div>
+
+    <!-- ===== CORE VISUAL: the color wheel tool ===== -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 6px;">&#127912; THE 12-HUE COLOR WHEEL</div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 0 0 16px 0;">This is a tool, like a ruler for color. Reading clockwise from the top, the twelve hues run in order. Notice how each color sits next to the ones it is mixed from or related to.</p>
+        <div class="cw-wrap">
+            <div class="cw-ring" role="img" aria-label="A twelve-hue color wheel: red, red-orange, orange, yellow-orange, yellow, yellow-green, green, blue-green, blue, blue-violet, violet, and red-violet arranged clockwise in a ring.">
+                <div class="cw-hub">12-hue<br />color wheel</div>
+            </div>
+            <div class="cw-key">
+                <div><span class="cw-chip" style="background:#E4332B;"></span>Red <span class="cw-tag primary">primary</span></div>
+                <div><span class="cw-chip" style="background:#E8602A;"></span>Red-Orange</div>
+                <div><span class="cw-chip" style="background:#F08A1E;"></span>Orange <span class="cw-tag secondary">secondary</span></div>
+                <div><span class="cw-chip" style="background:#F6B41C;"></span>Yellow-Orange</div>
+                <div><span class="cw-chip" style="background:#F4DA1C;"></span>Yellow <span class="cw-tag primary">primary</span></div>
+                <div><span class="cw-chip" style="background:#A9C93A;"></span>Yellow-Green</div>
+                <div><span class="cw-chip" style="background:#3FA34D;"></span>Green <span class="cw-tag secondary">secondary</span></div>
+                <div><span class="cw-chip" style="background:#2C8E8A;"></span>Blue-Green</div>
+                <div><span class="cw-chip" style="background:#2B6FB0;"></span>Blue <span class="cw-tag primary">primary</span></div>
+                <div><span class="cw-chip" style="background:#3F4F9E;"></span>Blue-Violet</div>
+                <div><span class="cw-chip" style="background:#6A3D9A;"></span>Violet <span class="cw-tag secondary">secondary</span></div>
+                <div><span class="cw-chip" style="background:#A82B6E;"></span>Red-Violet</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real-artist link-out: Mondrian (in copyright; link out only, do not embed) -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 6px;">&#128065; A REAL ARTIST AND THE PRIMARIES</div>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Piet Mondrian was a Dutch painter who built whole artworks out of almost nothing but the three primary colors. In <em>Composition (no. III) blanc-jaune</em>, also known as <em>Composition with Red, Yellow, and Blue</em> (1935/1942, oil on canvas, San Francisco Museum of Modern Art), a tall white panel is crossed by heavy black lines, and only a golden-yellow block in the upper right and red and blue blocks down the left margin break the white. He believed those simple, pure colors expressed a kind of order and balance.</p>
+        <div style="margin: 10px 0 0 0;">
+            <a href="https://www.sfmoma.org/artwork/98.294/" target="_blank" rel="noopener" style="display: inline-block; background: #0E1C42; color: #ffffff; font-size: 14px; padding: 8px 16px; border-radius: 6px; text-decoration: none;">View this work at SFMOMA &#8599;</a>
+            <div style="font-size: 13px; color: #888; font-style: italic; margin-top: 8px;">Piet Mondrian, <em>Composition (no. III) blanc-jaune / Composition with Red, Yellow, and Blue</em>, 1935/1942, San Francisco Museum of Modern Art. Shown by link only: this work is under copyright.</div>
+        </div>
+    </div>
+
+    <!-- WIDGET: reflective check-in (no wrong answer) -->
+    <div class="optima-widget ow-reflect">
+      <div class="widget-kicker">&#9889; QUICK CHECK-IN</div>
+      <div class="widget-question">Before we start mixing, which color do you reach for most in your own work? (No wrong answer. Just check in with yourself.)</div>
+      <div class="widget-options">
+        <button data-response="Reds and oranges run warm. Watch how they seem to come forward and feel full of energy on the page.">&#128293; Warm reds and oranges</button>
+        <button data-response="Blues and greens run cool. They tend to settle back and feel calm, which is useful for skies, water, and shadows.">&#127754; Cool blues and greens</button>
+        <button data-response="Yellow is the brightest hue on the wheel. A little goes a long way, and it can light up everything around it.">&#9728;&#65039; Bright yellow</button>
+        <button data-response="Mixing your own is the real skill. By the end of this lesson you will know exactly which two colors to combine.">&#127912; I like mixing my own</button>
+      </div>
+      <div class="widget-feedback"></div>
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- PART 1 - Primary and secondary -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 1 &middot; PRIMARY AND SECONDARY COLORS</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">The three you cannot mix</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">The <strong>primary colors</strong> are <strong>red, yellow, and blue</strong>. They are called primary because you cannot make them by mixing other paints together. Instead, you use them to build everything else. A long time ago, in 1666 A.D., a scientist named Isaac Newton used a glass prism to split white light into a rainbow, which showed that white light is made of many colors. Later, art teachers settled on the red, yellow, and blue system because it worked well for mixing paints.</p>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 18px 0 8px 0;">Mix two primaries, get a secondary</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">A <strong>secondary color</strong> is made by mixing two primary colors:</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 6px;">
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Red + Yellow = Orange</strong></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Yellow + Blue = Green</strong></div>
+            <div style="background:#EEF1F8;border-radius:6px;padding:10px 12px;"><strong style="color:#0e1c42;font-size:15px;">Blue + Red = Violet</strong></div>
+        </div>
+        <p style="font-size: 15px; color: #666; line-height: 1.6; margin: 8px 0 0 0;">On the wheel above, each secondary sits exactly between the two primaries it comes from. The six in-between hues (red-orange, yellow-orange, and so on) are tertiary colors, made by mixing a primary with the secondary next to it.</p>
+    </div>
+
+    <!-- PART 2 - Warm and cool -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 14px;">&#128218; PART 2 &middot; WARM AND COOL</div>
+
+        <h3 style="font-size: 20px; color: #0e1c42; margin: 6px 0 8px 0;">Two halves of the wheel</h3>
+        <p style="font-size: 17px; color: #1a2340; line-height: 1.65; margin: 0 0 10px 0;">Split the wheel down the middle and you get two families. <strong>Warm colors</strong> are the reds, oranges, and yellows. They remind people of fire and sunlight, and they tend to feel close and full of energy. <strong>Cool colors</strong> are the greens, blues, and violets. They remind people of water, sky, and shade, and they tend to feel calm and far away.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="background:#FDF1ED;border-left:4px solid #E4572E;border-radius:6px;padding:12px 16px;">
+                <div style="font-size:13px;color:#b23a18;margin-bottom:6px;"><strong>&#128293; WARM</strong></div>
+                <div style="font-size:15px;color:#1a2340;line-height:1.6;">Red, red-orange, orange, yellow-orange, yellow. They seem to come forward.</div>
+            </div>
+            <div style="background:#ECF8F9;border-left:4px solid #1B9AAA;border-radius:6px;padding:12px 16px;">
+                <div style="font-size:13px;color:#0f7480;margin-bottom:6px;"><strong>&#127754; COOL</strong></div>
+                <div style="font-size:15px;color:#1a2340;line-height:1.6;">Green, blue-green, blue, blue-violet, violet. They seem to settle back.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WIDGET: evaluative single-select (placed AFTER teaching). Correct index varies: 1, 3, 0. -->
+    <div class="optima-widget ow-select">
+      <div class="widget-kicker">&#9889; TRY IT &middot; MIX IT AND PLACE IT</div>
+      <div class="widget-question">Read each one and pick the best answer. Tap a button to check it.</div>
+
+      <div class="widget-row" data-correct="1" data-fb="Right. Blue and yellow are the two primaries that mix to make green, which is why green sits between them on the wheel." data-hint="Look at the two primaries on either side of green on the wheel.">
+        <div class="widget-row-prompt">1. Which two primary colors do you mix to get green?</div>
+        <div class="widget-options">
+          <button data-choice="0">Red and yellow</button>
+          <button data-choice="1">Blue and yellow</button>
+          <button data-choice="2">Red and blue</button>
+          <button data-choice="3">Green is a primary color</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="3" data-fb="Correct. Red, yellow, and blue are the primaries. You cannot mix any of them from other paints." data-hint="Which color cannot be made by mixing two other paints together?">
+        <div class="widget-row-prompt">2. Which of these is a primary color?</div>
+        <div class="widget-options">
+          <button data-choice="0">Orange</button>
+          <button data-choice="1">Green</button>
+          <button data-choice="2">Violet</button>
+          <button data-choice="3">Yellow</button>
+        </div>
+      </div>
+
+      <div class="widget-row" data-correct="0" data-fb="Yes. Reds, oranges, and yellows are the warm family. They remind people of fire and sun." data-hint="Think about the side of the wheel that reminds people of fire and sunlight.">
+        <div class="widget-row-prompt">3. An artist wants the warmest part of the wheel for a glowing sunset. Which group should they reach for?</div>
+        <div class="widget-options">
+          <button data-choice="0">Red, orange, yellow</button>
+          <button data-choice="1">Blue, green, violet</button>
+          <button data-choice="2">Black, white, gray</button>
+          <button data-choice="3">Blue-green and blue-violet</button>
+        </div>
+      </div>
+
+      <button class="widget-reset">Reset</button>
+    </div>
+
+    <!-- WHAT YOU'LL DO NEXT - coral = make/studio -->
+    <div style="background: #FFFFFF; border-top: 3px solid #0E1C42; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 16px;">&#10145;&#65039; WHAT YOU'LL DO THIS MODULE</div>
+        <div class="act-row">
+            <div class="act-badge badge-coral">&#9999;&#65039;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 13.01 Sketch: Practice Color Wheel</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A quick warm-up. Mix and arrange the twelve hues into a small practice wheel to drill the order. Not a finished piece.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge " style="background:#1B9AAA">&#129405;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 13.02 VR: Build the Color Wheel in VR</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Arrange twelve hues into a wheel in VR, or build one from real objects.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge badge-navy">&#128172;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 13.03 Discussion Board: Warm, Cool, or Complementary</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Find color in an earlier artwork and reply to two classmates.</div></div>
+        </div>
+        <div class="act-row">
+            <div class="act-badge badge-navy">&#127912;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 13.04 Studio Project &amp; Reflection: Color Wheel Eye</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">Your graded project. Paint a detailed eye with all twelve hues set in order around the iris, then sign it.</div></div>
+        </div>
+        <div class="act-row" style="margin-bottom:0;">
+            <div class="act-badge badge-gold">&#128221;</div>
+            <div><div style="font-size: 18px; color: #0e1c42; margin-bottom: 4px;"><strong>Module 13.05 Short Quiz: Color Theory and the Color Wheel</strong></div><div style="font-size: 16px; color: #1a2340; line-height: 1.55;">A short check on primary and secondary colors, mixing, the wheel, and warm and cool.</div></div>
+        </div>
+    </div>
+
+    <!-- Wrap-up -->
+    <div style="background: #FFFFFF; border-top: 3px solid #C7922C; border: 1px solid #D0D9E8; border-radius: 8px; padding: 20px 24px; margin-bottom: 4px;">
+        <div style="font-size: 11px; color: #c7922c; margin-bottom: 12px;">&#128170; BEFORE YOU MOVE ON</div>
+        <p style="font-size: 18px; color: #1a2340; line-height: 1.65; margin: 0;">You now know where every color comes from. Three primaries make three secondaries, those fill out the twelve-hue wheel, and the wheel splits into warm and cool. Keep this map in mind every time you pick up a brush. Knowing it is what lets you mix any color you want on purpose.</p>
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background: #0E1C42; border-top: 3px solid #55C8E8; padding: 18px 34px; text-align: center;">
+    <div style="font-size: 18px; color: #ffffff; margin-bottom: 6px;"><span style="color: #55c8e8;">Optima Academy Online</span> &middot; M/J VISUAL ART 2 &middot; Quarter 4 &middot; Module 13 Instructional Page</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px;">Module 13 &middot; Color Theory: The Color Wheel</div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.4);">&copy; Optima Academy Online &middot; An Education Experience Company</div>
+</div>
+
+</div>
+
+<!-- ===== WIDGET RUNTIME - one delegated listener drives every engine ===== -->
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var reset = e.target.closest('.widget-reset');
+    if (reset) {
+      var w = reset.closest('.optima-widget');
+      w.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      w.querySelectorAll('.widget-feedback').forEach(function (f) { f.classList.remove('show'); f.textContent = ''; });
+      w.querySelectorAll('.row-feedback').forEach(function (f) { f.remove(); });
+      w.querySelectorAll('.ow-flip.flipped').forEach(function (c) { c.classList.remove('flipped'); });
+      return;
+    }
+    var rBtn = e.target.closest('.ow-reflect .widget-options button');
+    if (rBtn) {
+      var rw = rBtn.closest('.optima-widget');
+      rw.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected'); });
+      rBtn.classList.add('selected');
+      var fb = rw.querySelector('.widget-feedback');
+      fb.textContent = rBtn.dataset.response || '';
+      fb.classList.add('show');
+      return;
+    }
+    var sBtn = e.target.closest('.ow-select .widget-row .widget-options button');
+    if (sBtn) {
+      var row = sBtn.closest('.widget-row');
+      var correct = row.dataset.correct;
+      row.querySelectorAll('.widget-options button').forEach(function (b) { b.classList.remove('selected', 'correct', 'incorrect'); });
+      var right = sBtn.dataset.choice === correct;
+      sBtn.classList.add(right ? 'correct' : 'incorrect');
+      var text = right ? (sBtn.dataset.fb || row.dataset.fb || 'Right.') : (sBtn.dataset.fb || row.dataset.hint || 'Not quite. Try again.');
+      var rf = row.querySelector('.row-feedback') || row.appendChild(document.createElement('div'));
+      rf.className = 'row-feedback ' + (right ? 'correct' : 'incorrect');
+      rf.textContent = text;
+      return;
+    }
+    var flip = e.target.closest('.ow-flip');
+    if (flip) { flip.classList.toggle('flipped'); return; }
+  });
+})();
+</script>
+
+</body>
+</html>
